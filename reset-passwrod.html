@@ -1,0 +1,37 @@
+<!-- public/reset-password.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Password</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="reset-password">
+        <h2>Reset Your Password</h2>
+        <input type="password" id="new-password" placeholder="New Password">
+        <button id="reset-button">Reset Password</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://fgarksnsdfvkclhzahmq.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnYXJrc25zZGZ2a2NsaHphaG1xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg2ODY5MjUsImV4cCI6MjA2NDI2MjkyNX0.hWWR-y9ZcTvgdZOp7sQpRO2f-3l2-mpgdi6YWk1BK_w';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function resetPassword() {
+            const newPassword = document.getElementById('new-password').value;
+            const { error } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+
+            if (error) {
+                document.getElementById('message').textContent = 'Error: ' + error.message;
+            } else {
+                document.getElementById('message').textContent = 'Password updated successfully!';
+            }
+        }
+
+        document.getElementById('reset-button').addEventListener('click', resetPassword);
+    </script>
+</body>
+</html>
